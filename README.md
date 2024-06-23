@@ -1,3 +1,7 @@
+**Cite LIBDAR** (DOI): 
+
+**License:** [![License](https://img.shields.io/badge/License-GNU_GPLv3-orange.svg)](https://github.com/mh-skjelvareid/synaptus/blob/master/LICENSE.md)
+
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](code_of_conduct.md)
 - 👋 Hi, I’m @X-X-Liang
 - 👀 I’m interested in numerical simulations of laser-induced optical breakdown events in water, including plasma formation, bubble generation and shock wave emission...
