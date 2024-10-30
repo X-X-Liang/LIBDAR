@@ -38,7 +38,7 @@ When the bubble pressure in high, *u*(*t*) and *p*(*r*) profiles in the liquid b
 
 A sketch of the algorithms is illustrated in the following figure and the Matlab functions to perform the algorithms are contained in the “core functions” folder in the repository.
 
-<img src="./figures/Fig_Algorithms.png" alt="Fig_Algorithms" width="850;" />
+<img src="./figures/Fig_Algorithms.png" alt="Fig_Algorithms" width="800;" />
 
 _Figure 1. A sketch of the main algorithms used in the toolbox. (a) Bubble dynamics are solved using the Runge-Kutta (RK) scheme with adaptive time steps, and acoustic emission are solved using RK with fixed step size. Propagation of “characteristics” is illustrated as the vertical lines starting with the quantity Yi, with i = 1 to n. (b) Multi-valued shock front curves need to be reshaped according to the conservation of momentum in u(r) curves and then the location of shock front is transferred to the p(r) curves._
 
@@ -88,15 +88,15 @@ The purpose of the “examples” folder is to help the users familiarize themse
 
 - “*bubble_dyn_acoust_rad_Rmax_1200um_example.m*”, one can simulate bubble dynamics and acoustic emission at bubble expansion and collapse for a 1.2 mm-sized bubble induced by a ns laser, and compare *R*(*t*) data with experimental results from the Ref. [3].
 
-<img src="./figures/Fig_Temporal_Rnt_Rt_Pt_Ut.png" alt="Fig_Temporal_Rnt_Rt_Pt_Ut" width ="850;" />
+<img src="./figures/Fig_Temporal_Rnt_Rt_Pt_Ut.png" alt="Fig_Temporal_Rnt_Rt_Pt_Ut" width ="800;" />
 
 _Figure 2. Time evolution of the increase of R<sub>n</sub>(t) during the pulse from R<sub>0</sub> to R<sub>nbd</sub> (a), bubble radius (b), internal pressure (c) and bubble wall velocity (d). Simulations were performed for a 36 μm-sized bubble induced by a fs laser pulse. Figures are taken and reorganized from Ref. [1]._
 
-<img src="./figures/Fig_Shockwave_beakdown.png" alt="Fig_Shockwave_beakdown" width ="850;" />
+<img src="./figures/Fig_Shockwave_beakdown.png" alt="Fig_Shockwave_beakdown" width ="800;" />
 
 _Figure 3. Shock wave emission after optical breakdown for the parameters of Fig. 2, with velocity distributions in the liquid, u(r), at different times in (a), and the corresponding pressure distribution, p(r), presented in (b). Figures are taken and reorganized from Ref. [1]._
 
-<img src="./figures/Fig_Shockwave_collapse.png" alt="Fig_Shockwave_collapse" width ="850;" />
+<img src="./figures/Fig_Shockwave_collapse.png" alt="Fig_Shockwave_collapse" width ="800;" />
 
 _Figure 4. (a) Evolution of the velocity distribution in the liquid during the late stage of bubble collapse and during the bubble’s rebound for the parameters of Fig. 2. Upon rebound, the flow around the expanding bubble collides with the still incoming flow from outer regions, and a shock front develops within about 50 ps and 750nm propagation distance that continues to exist even in the far field. (b) Evolution of the pressure distribution in the liquid. Figures are taken and reorganized from Ref. [1]._
 
