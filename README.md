@@ -22,6 +22,8 @@ LIBDAR is a Matlab toolbox to simulate **L**aser-**i**nduced **B**ubble **D**yna
 
 - Novel shock front reshaping algorithm that deals with multi-valued curves based on conservation of momentum.
 
+- Visualization of shock wave propagation in animation and selection of “shock-photos” at queried time instants.
+
 - Consideration of the finite compression of bubble content upon collapse via van der Waal’s hard core.
 
 - Implementation of extra hard core for studying nano-micro bubbles around gold nanoparticles or organic melanosome particles.
