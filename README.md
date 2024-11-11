@@ -2,7 +2,7 @@
 
 
 # Summary
-LIBDAR is a Matlab toolbox to simulate **L**aser-**i**nduced **B**ubble **D**ynamics and **A**coustic **R**adiation, as the name of the toolbox is abbreviated for. Laser-induced cavitation bubble plays a crucial role in laser material processing within liquid environments and in biomedicine and biophotonics, where it enables precise surgery on cells and within transparent tissues. It involves localized energy deposition by laser pulses that results in plasma formation, acoustic radiation, which often evolves into a shock wave, and bubble dynamics. The LIBDAR software serves to provide a comprehensive numerical toolbox to analyze the physical effects of laser-induced bubble dynamics and acoustic radiation, with the capability of tracking energy partitioning for the whole bubble lifetime.
+LIBDAR is a Matlab toolbox to simulate **L**aser-**i**nduced **B**ubble **D**ynamics and **A**coustic **R**adiation, as the name of the toolbox is abbreviated for. Laser-induced cavitation bubble plays a crucial role in laser material processing within liquid environments and in biomedicine and biophotonics, where it enables precise surgery on cells and within transparent tissues. It involves localized energy deposition by laser pulses that results in plasma formation, acoustic radiation, which often evolves into a shock wave, and bubble dynamics. The LIBDAR software serves to provide a comprehensive numerical toolbox to analyze the physical effects of laser-induced bubble dynamics and acoustic radiation.
 
 *The key features of LIBDAR are:*
 
