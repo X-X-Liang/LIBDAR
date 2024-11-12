@@ -102,6 +102,8 @@ _Figure 3. Shock wave emission after optical breakdown for the parameters of Fig
 
 _Figure 4. (a) Evolution of the velocity distribution in the liquid during the late stage of bubble collapse and during the bubble’s rebound for the parameters of Fig. 2. Upon rebound, the flow around the expanding bubble collides with the still incoming flow from outer regions, and a shock front develops within about 50 ps and 750nm propagation distance that continues to exist even in the far field. (b) Evolution of the pressure distribution in the liquid. Figures are taken and reorganized from Ref. [1]._
 
+<img src="./figures/Acoust_rad_at_collnreb_36um_265fs.gif" alt="Acoust_rad_at_collnreb_36um_265fs" width ="600;" />
+
 <img src="./figures/Fig_NonlinOsc_to_LinOsc.png" alt="Fig_NonlinOsc_to_LinOsc" width ="600;" />
 
 _Figure 5. Simulated *R*(*t*) curves for the 36-μm bubble covering the transition from nonlinear to linear oscillations and late bubble oscillations. Simulations were performed for initially adiabatic conditions with *κ* =4/3 followed by isothermal conditions after the maximum of the third oscillation, with *κ* =1 for *T*<sub>w</sub> = 20 °C, 60 °C and 100 °C. Temperature-dependent surface tension σ and viscosity μ at the corresponding temperature are used. Figures are taken from Ref. [1]._
