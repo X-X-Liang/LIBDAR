@@ -4,7 +4,7 @@ clearvars
 %% Show test header (useful when run as part of test suite)
 disp('-----------------------------------------------------------------')
 disp('-----            LIBDAR TOOLBOX TEST:                       -----')
-disp('-----           Inertial confinement example                -----')
+disp('-----  Inertial confinement (Rmax,tau_L) example            -----')
 disp('-----    Ref: Liang&Vogel Preprint...                       -----')
 disp('-----------------------------------------------------------------')
 disp(' ')
@@ -48,7 +48,7 @@ tau_Matrix    = zeros(L_R0,L_tau);
 for i = 1:L_R0
     R0 = R0_Array(i);
     disp(['Simulating R0 = ' num2str(R0,'%.1e')])
-    [tau_th,Rmax_th,Tosc_th, Results_Matrix] = inertial_conf_tau_loop(R0,Rnbd_R0_ratio,tau_Array,Inertial_threshold);
+    [tau_th,Rmax_th,Tosc_th, Results_Matrix] = inertial_conf_loop(R0,Rnbd_R0_ratio,tau_Array,Inertial_threshold);
     
     % Store the results
     tau_th_Array(i)  = tau_th;
