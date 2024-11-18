@@ -62,7 +62,7 @@ _Figure 1. A sketch of the main algorithms used in the toolbox. (a) Bubble dynam
 
 The toolbox requires a working base installation of Matlab, with some additional functions from the Signal Processing Toolbox, such as *findpeaks*(). Matlab is available for Linux, MacOS and Windows, and can be purchased from [Mathworks](https://www.mathworks.com/). Running LIBDAR on Matlab requires:
 
-- Base installation of Matlab (has been tested with versions 2018b and 2023b that are installed on Windows 8, 10 and 11)
+- Base installation of Matlab (has been tested with versions 2018b, 2023b, 2024b that are installed on Windows 8, 10 and 11)
 
 - Signal Processing Toolbox
 
