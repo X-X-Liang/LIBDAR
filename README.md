@@ -123,7 +123,7 @@ LIBDAR is under the copyright of its developer and made available as open-source
 # Citing LIBDAR
 If you use the LIBDAR toolbox for your scientific work, please consider citing it appropriately:
 
-X.-X. Liang, *LIBDAR: A Matlab toolbox for laser-induced bubble dynamics and acoustic radiation*, https://github.com/X-X-Liang/LIBDAR.
+X.-X. Liang and A. Vogel, *LIBDAR: A Matlab toolbox for laser-induced bubble dynamics and acoustic radiation*, https://github.com/X-X-Liang/LIBDAR.
 
 # Acknowledgements
 Sincere gratitude to Prof. Günther Paltauf for sharing initial ideas/codes for the toolbox that is instrumental in shaping the foundation of the project. The development of LIBDAR was supported by U.S. Air Force Office of Scientific Research (FA9550-15-1-0326, FA9550-18-1-0521, FA9550-22-1-0289).
