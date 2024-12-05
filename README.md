@@ -42,7 +42,7 @@ A sketch of the algorithms is illustrated in the following figure and the Matlab
 
 <img src="./figures/Fig_Algorithms.png" alt="Fig_Algorithms" width="800;" />
 
-_Figure 1. A sketch of the main algorithms used in the toolbox. (a) Bubble dynamics are solved using the Runge-Kutta (RK) scheme with adaptive time steps, and acoustic emission are solved using RK with fixed step size. Propagation of “characteristics” is illustrated as the vertical lines starting with the quantity Yi, with i = 1 to n. (b) Multi-valued shock front curves need to be reshaped according to the conservation of momentum in u(r) curves and then the location of shock front is transferred to the p(r) curves._
+_Figure 1. A sketch of the main algorithms used in the toolbox. (a) Bubble dynamics are solved using the Runge-Kutta (RK) scheme with adaptive time steps, and acoustic emission are solved using RK with fixed step size. Propagation of “characteristics” is illustrated as the vertical lines starting with the quantity Yi at bubble wall, with i = 1 to n. (b) Multi-valued shock front curves need to be reshaped according to the conservation of momentum in u(r) curves and then the location of shock front is transferred to the p(r) curves._
 
 # **Repository Structure**
 - 'core functions’ contains the essential functions to simulate laser-induced bubble dynamics and acoustic emission. The purpose, usage and the input&out arguments are explained at the top of each file.
