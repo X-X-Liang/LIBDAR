@@ -130,8 +130,8 @@ Sincere gratitude to Prof. Günther Paltauf for sharing initial ideas/codes for 
 
 ## **References**
 
-[1] X.-X. Liang, N. Linz, S. Freidank, G. Paltauf, and A. Vogel, *Comprehensive analysis of spherical bubble oscillations and shock wave emission in laser-induced cavitation*, J. Fluid. Mech. 940, A5 (2022).
+[1] X.-X. Liang, N. Linz, S. Freidank, G. Paltauf, and A. Vogel, *Comprehensive analysis of spherical bubble oscillations and shock wave emission in laser-induced cavitation*, J. Fluid. Mech. 940, A5 (2022). https://doi.org/10.1017/jfm.2022.202
 
-[2] X.-X. Liang and A. Vogel, *Influence of inertial confinement on laser-induced bubble generation and shock wave emission*, Preprint, https://doi.org/10.48550/arXiv.2501.13749 (2025).
+[2] X.-X. Liang and A. Vogel, *Influence of inertial confinement on laser-induced bubble generation and shock wave emission*, arXiv:2501.13749 (2025). https://doi.org/10.48550/arXiv.2501.13749.
 
-[3] H. Wen, Z. Yao, Q. Zhong, Y. Tian, Y. Sun, and F. Wang, *Energy partitioning in laser-induced millimeter-sized spherical cavitation up to the fourth oscillation*, Ultrason. Sonochem. 95, 106391 (2023).
+[3] H. Wen, Z. Yao, Q. Zhong, Y. Tian, Y. Sun, and F. Wang, *Energy partitioning in laser-induced millimeter-sized spherical cavitation up to the fourth oscillation*, Ultrason. Sonochem. 95, 106391 (2023). https://doi.org/10.1016/j.ultsonch.2023.106391.
