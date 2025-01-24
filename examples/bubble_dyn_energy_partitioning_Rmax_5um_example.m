@@ -5,7 +5,7 @@ clearvars
 disp('-----------------------------------------------------------------')
 disp('-----            LIBDAR TOOLBOX TEST:                       -----')
 disp('-----    Bubble dynamics and energy partitioning example    -----')
-disp('-----       Ref: Liang&Vogel Preprint (2024)                -----')
+disp('----Ref: Liang&Vogel,https://doi.org/10.48550/arXiv.2501.13749---')
 disp('-----------------------------------------------------------------')
 disp(' ')
 
