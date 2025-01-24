@@ -5,7 +5,7 @@ clearvars
 disp('-----------------------------------------------------------------')
 disp('-----            LIBDAR TOOLBOX TEST:                       -----')
 disp('-----  Inertial confinement (Rmax,tau_L) example            -----')
-disp('-----    Ref: Liang&Vogel Preprint...                       -----')
+disp('----Ref: Liang&Vogel,https://doi.org/10.48550/arXiv.2501.13749---')
 disp('-----------------------------------------------------------------')
 disp(' ')
 
