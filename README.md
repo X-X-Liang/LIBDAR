@@ -1,4 +1,4 @@
-[![License](https://img.shields.io/badge/License-GNU_GPLv3-orange.svg)](https://github.com/X-X-Liang/LIBDAR/blob/main/LICENSE.md) [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](https://github.com/X-X-Liang/LIBDAR/blob/main/CODE_OF_CONDUCT.md)
+[![License](https://img.shields.io/badge/License-GNU_GPLv3-orange.svg)](https://github.com/X-X-Liang/LIBDAR/blob/main/LICENSE.md) [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](https://github.com/X-X-Liang/LIBDAR/blob/main/CODE_OF_CONDUCT.md) [![DOI](https://zenodo.org/badge/770845398.svg)](https://doi.org/10.5281/zenodo.18504018)
 
 
 # Summary
