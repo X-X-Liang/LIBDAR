@@ -8,8 +8,8 @@
   - Ambient mass density `ρ∞(p∞)`
   - Ambient sound speed `c∞(p∞)`
 - New example script demonstrating ambient-pressure effects:
-   `examples/Ambient_pressure_dependence_example.m`
-   `examples/bubble_dyn_acoust_rad_ambient_pressure_example_update_tauL_6ns.m`
+   - `examples/Ambient_pressure_dependence_example.m`
+   - `examples/bubble_dyn_acoust_rad_ambient_pressure_example_update_tauL_6ns.m`
 
 ------
 
@@ -65,4 +65,5 @@
 
 
   **LIBDAR** is under the copyright of its developers and made available as open-source software under the terms of the GNU General Public License Version 3.0.
+
 
