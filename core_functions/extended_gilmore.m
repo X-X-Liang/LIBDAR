@@ -8,7 +8,7 @@ function xprime = extended_gilmore(t,x,R0,Rnbd,Rnc1,Rnc2,tRmax,tRmax2,tp,varargi
 % Liang et al. J. Fluid. Mech. 940, A5 (2022). DOI: 10.1017/jfm.2022.202
 
 % and Section II A. in the Ref:
-% Liang&Vogel. PoF (2024). DOI:...
+% Liang&Vogel,https://doi.org/10.48550/arXiv.2501.13749
 %
 % Usage:
 % xprime = extended_gilmore(t,x,R0,Rnbd,Rnc1,Rnc2,tRmax,tRmax2,tp)
@@ -37,6 +37,7 @@ function xprime = extended_gilmore(t,x,R0,Rnbd,Rnc1,Rnc2,tRmax,tRmax2,tp,varargi
 %                confined condition
 %                'general' - second-order approximation for general
 %                condition (default)
+% p0     - ambient pressure % Update version 1.1
 %
 % Output arguments:
 % xprime(1) - time derivatives of R, bubble wall velocity
@@ -69,6 +70,7 @@ defaulttRmax3 = 1000;   % default value for tRmax, set a large value as "infinit
 defaultTwall  = 293;    % default value for the temperature at bubble wall,in Kelvin
 defaultRnc3   = Rnc2;   % default value for Rncoll3
 defaultisIsotherm  = 1; % default value for the kappa value for late oscillations t > tRmax3, 1 for isothermal, 0 for adiabatic
+defaultp0     = 1e5;    % default value for ambient pressure 1e5 Pa
 
 validationFcn = @(str) any(strcmp(str,{'no','first-order','second-order','general'}));
 addParameter(p,'JSC',defaultJSC,validationFcn);
@@ -77,6 +79,7 @@ addParameter(p,'tRmax3',defaulttRmax3);
 addParameter(p,'Twall', defaultTwall);
 addParameter(p,'Rnc3', defaultRnc3);
 addParameter(p,'isIsotherm', defaultisIsotherm);
+addParameter(p,'p0',defaultp0);
 
 parse(p,varargin{:});   % Parse param.-value pairs
 param = p.Results;      % transfer res. to structure
@@ -86,15 +89,18 @@ Twall  = param.Twall;
 tRmax3 = param.tRmax3;
 RNP    = param.RNP;
 Rnc3   = param.Rnc3;
+p0     = param.p0;      % ambient pressure as an input parameter
 
+% mass density and speed of sound at ambient pressure p0
+[rho, c0] = TaitEOS(p0);  
 %% constants
-p0      = 1e5;          % ambient pressure 1e5 Pa
+% p0      = 1e5;          % ambient pressure 1e5 Pa at STP
+% c0      = 1483;         % speed of sound 1483m/s at STP
+% rho     = 998;          % density of water 998kg/m3 at STP
 kappa   = 4/3;          % adiabatic exponent 4/3 for H2O vapor 
-rho     = 998;          % density of water 998kg/m3 
 B       = 3.14e8;       % parameter in Tait EOS
-A       = 3141e5;       % B+p0 parameters for the Tait EOS
+A       = B+p0;         % B+p0 parameters for the Tait EOS
 n       = 7;            % default 7
-c0      = 1483;         % speed of sound 1483m/s
 c1      = 5190;         % constants in the Hugoniot curve see Eq.(3.11) in Liang2022
 c2      = 25306;        % constants in the Hugoniot curve see Eq.(3.11) in Liang2022
 p_inf   = p0;           % pressure in the liquid, far away from the bubble; here assumed to be equal to p0
@@ -143,16 +149,16 @@ if t<=2*tp % jump start condition applies to the time window of energy depositio
         case 'first-order'  % first-order approximation for inertial confined condition, Eq. 3.23 in Liang2022JFM
             % disp('first-order approximation for inertial confined condition is used')
             dUpdt = (2*p0*Rnt+3*sigma)*(Rnbd^3-R0^3)*(1-cos(pi*t/tp))/(3*R0^4*tp*rho*c0);
-        case 'second-order' % 2nd order approximation for inertial confined condition
+        case 'second-order' % 2nd order approximation for inertial confined condition,   Eq. 3.30 in Liang2022JFM
             % disp('second-order approximation for inertial confined condition is used')
-            ps_bd = p0*Rnt^4/R0^4+2*sigma*Rnt^3/R0^4;
+            ps_bd = p0*Rnt^4/R0^4+2*sigma*Rnt^3/R0^4;                                  % Eq. 3.19 in Liang2022JFM
             dUpdt = (2*p0*Rnt+3*sigma)*(Rnbd^3-R0^3)*(1-cos(pi*t/tp))/(3*R0^4*tp)/sqrt(rho^2*c0^2+4*rho*c2*ps_bd/(log(10)*c1));
         case 'general'      % general case
             % disp('general condition is used')
             p_gas  = pn*((Rnt^3-Rvdw^3)/(x(1)^3-Rvdw^3))^kappa;
             Rntdot = (Rnbd^3-R0^3)*(1-cos(pi*t/tp))/6/tp/Rnt^2;
             Pdot  = 3*kappa*(p0+2*sigma/Rnt)*(Rnt^3-Rvdw^3)^kappa/(x(1)^3-Rvdw^3)^kappa*(Rnt^2*Rntdot/(Rnt^3-Rvdw^3)-x(1)^2*x(2)/(x(1)^3-Rvdw^3))-...
-                2*sigma*Rntdot/Rnt^2*(Rnt^3-Rvdw^3)^kappa/(x(1)^3-Rvdw^3)^kappa;
+                2*sigma*Rntdot/Rnt^2*(Rnt^3-Rvdw^3)^kappa/(x(1)^3-Rvdw^3)^kappa; % +2*sigma/x(1)^2+4*mu*(x(2)/x(1)^2-xprime(2)/x(1)); surface tension and viscosity
             %   Pdot   = 4*p0*Rnt^3/x(1)^4*(Rntdot-x(2)*Rnt/x(1))+2*sigma*Rnt^2/x(1)^4*(3*Rntdot-4*Rnt*x(2)/x(1)); % for water RNP = 0 and kappa = 4/3
             if Pdot < 0     % shock wave pressure should accelerate not deaccelerate bubble movement
                 Pdot = 0;
