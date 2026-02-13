@@ -54,6 +54,7 @@ _Figure 1. A sketch of the main algorithms used in the toolbox. (a) Bubble dynam
 - 'results' stores simulation results that includes temporal evolution of bubble dynamics, temporal tracking of energy partitioning, and tabulated energy balance in .xlsx format. Animated acoustic emissions are stored in .avi format.
 - ‘figures’ stores the figures for the README.md and for paper.md
 - 'paper' stores the files for paper.md and the related bibliography in paper.bib
+- The [Changelog.md](https://github.com/X-X-Liang/LIBDAR/blob/main/Changelog.md) file tracks the changes among the versions.
 - The [CODE_OF_CONDUCT.md](https://github.com/X-X-Liang/LIBDAR/blob/main/CODE_OF_CONDUCT.md) file outlines the code of conduct for this repository.
 - The [LICENSE.txt](https://github.com/X-X-Liang/LIBDAR/blob/main/LICENSE.md) file contains the GNU General Public License v3.0.
 - The [README.md](https://github.com/X-X-Liang/LIBDAR/blob/main/README.md) file is the file you are right now reading.
