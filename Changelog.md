@@ -56,10 +56,12 @@
   The initial release of **LIBDAR** includes test examples that are able to reproduce the results from the publications: 
 
   [1] https://doi.org/10.1017/jfm.2022.202;
+  
   [2] https://doi.org/10.48550/arXiv.2501.13749; 
 
   [3] https://doi.org/10.1016/j.ultsonch.2023.106391.
 
   Further extension of the **LIBDAR** toolbox is on the progress. Please follow the website for the latest release, https://github.com/X-X-Liang/LIBDAR.
+
 
   **LIBDAR** is under the copyright of its developers and made available as open-source software under the terms of the GNU General Public License Version 3.0.
