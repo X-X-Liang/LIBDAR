@@ -4,7 +4,7 @@ function [filename, varargout] = bubble_dynamics_and_energy_partitioning (T1,T2,
 % Liang et al. J. Fluid. Mech. 940, A5 (2022). DOI: 10.1017/jfm.2022.202
 
 % and Section II A. in the Ref:
-% Liang&Vogel. PoF (2024). DOI:...
+% Liang&Vogel,https://doi.org/10.48550/arXiv.2501.13749
 %
 % Usage:
 % [filename, varargout] = bubble_dynamics_and_energy_partitioning (T1,T2,R0,Rnbd,Rnc1,Rnc2,tp)
@@ -77,11 +77,12 @@ defaultTwall  = 293;       % default value for the temperature at bubble wall,in
 defaultRnc3   = Rnc2;      % default value for Rncoll3
 defaultisIsotherm  = 1;    % default value for the kappa value for late oscillations t > tRmax3, 1 for isothermal, 0 for adiabatic
 
-defaultGS     = 'adaptive';% default value for Gilmore Solver (GS)
+defaultGS     = 'adaptive';   % default value for Gilmore Solver (GS)
 defaultMaxStepSize = 200e-12; % default value for MaxStepSize; MaxStepSize = 100e-12; % 200ps for Rmax = 5.4 um, 1ns for Rmax >= 100 um and 100 ps for Rmax < 1 um
 defaultStepSize    = 20e-12;  % default value for StepSize 20 ps
 defaultEP     = 1;            % default value for EnergyPartitioning (EP)
 defaulttend   = (T1+T2)*1.5;  % default value for tend
+defaultp0     = 1e5;          % default value for ambient pressure 1e5 Pa
 
 validationFcnJSC  = @(str) any(strcmp(str,{'no','first-order','second-order','general'}));
 validationFcnGS   = @(str) any(strcmp(str,{'adaptive','maxstepsize','fixedstepsize'}));
@@ -100,25 +101,30 @@ addParameter(p,'MaxStepSize', defaultMaxStepSize,validScalarPosNum);
 addParameter(p,'StepSize', defaultStepSize,validScalarPosNum);
 addParameter(p,'EP', defaultEP,validScalarnonNegNum);
 addParameter(p,'tend',defaulttend,validScalarPosNum);
+addParameter(p,'p0',defaultp0);
 
 
 parse(p,varargin{:});   % Parse param.-value pairs
 param = p.Results;      % transfer res. to structure
 clear p                 % delete the object p that is not needed
 
-RNP = param.RNP;        
+RNP = param.RNP;
+p0     = param.p0;      % ambient pressure as an input parameter
+
+% mass density and speed of sound at ambient pressure p0
+[rho, c0] = TaitEOS(p0);  
 
 %% Constants
-p0      = 1e5;         % ambient pressure in Pa
+% p0      = 1e5;         % ambient pressure in Pa
+% rho     = 998;         % density of water in ambient condiction  998kg/m3
+% c0      = 1483;        % speed of sound 1483m/s
 pv      = 2330;        % vapor pressure at 20 degree in Pa
 sigma   = 0.072583;    % surface tension 0.072583N/m
-kappa   = 4/3;         % adiabatic exponent 4/3 for H2O vapor; 5/3 for monoatomic gas; 7/5 for diatomic gas
-rho     = 998;         % density of water in ambient condiction  998kg/m3  
+kappa   = 4/3;         % adiabatic exponent 4/3 for H2O vapor; 5/3 for monoatomic gas; 7/5 for diatomic gas 
 mu      = 1.046e-3;    % viscosity 0.001046 Pa.s % 7.173mPa.s for 5% dextran
 B       = 3.14e8;      % parameter in Tait EOS
-A       = 3141e5;      % parameter in Tait EOS, A = B+p0 =3.14e8+1e5 = 3141e5;
+A       = B+p0;        % parameter in Tait EOS, A = B+p0 =3.14e8+1e5 = 3141e5;
 n       = 7;           % adiabatic coeffecient in Tait EOS
-c0      = 1483;        % speed of sound 1483m/s
 Cp      = 4187;        % J/(K kg) at 20 °C
 L_w     = 2256*1e3;    % J/kg latent heat at  100 °C
 rho_vap = 0.761;       % kg/m^3 mass dnesity of vapor at 20 degree celsius and 1 bar
@@ -157,22 +163,23 @@ switch param.GS        % choice of the GilmoreSolver
     case 'adaptive'    % Adaptive 45 Runge-Kutta method
     disp('Adaptive 45 Runge-Kutta method');  
     opts = odeset('RelTol',1e-8,'AbsTol',1e-9,'NormControl','off'); % Default: RelTol = 1e-3; AbsTol = 1e-6;
-    [t,x] = ode45(@(t,x)extended_gilmore(t,x,R0,Rn,Rn2,Rn3,tRmax,tRmax2,tp,'JSC',param.JSC,'RNP',RNP,'tRmax3',param.tRmax3,'Twall',param.Twall,'isIsotherm',param.isIsotherm,'Rnc3',param.Rnc3),[t1 t2],x0,opts);
+    [t,x] = ode45(@(t,x)extended_gilmore(t,x,R0,Rn,Rn2,Rn3,tRmax,tRmax2,tp,'JSC',param.JSC,'RNP',RNP,'tRmax3',param.tRmax3,'Twall',param.Twall,'isIsotherm',param.isIsotherm,'Rnc3',param.Rnc3,'p0',p0),[t1 t2],x0,opts);
     
     case 'maxstepsize' % Adaptive 45 Runge-Kutta method with max. stepsize ideal for simulating shock wave emission
     disp(['Adaptive 45 Runge-Kutta method with max. stepsize control of ' num2str(param.MaxStepSize)]);
     opts = odeset('RelTol',1e-5,'AbsTol',1e-8,'MaxStep',param.MaxStepSize);
-    [t,x] = ode45(@(t,x)extended_gilmore(t,x,R0,Rn,Rn2,Rn3,tRmax,tRmax2,tp,'JSC',param.JSC,'RNP',RNP,'tRmax3',param.tRmax3,'Twall',param.Twall,'isIsotherm',param.isIsotherm,'Rnc3',param.Rnc3),[t1 t2],x0,opts);
+    [t,x] = ode45(@(t,x)extended_gilmore(t,x,R0,Rn,Rn2,Rn3,tRmax,tRmax2,tp,'JSC',param.JSC,'RNP',RNP,'tRmax3',param.tRmax3,'Twall',param.Twall,'isIsotherm',param.isIsotherm,'Rnc3',param.Rnc3,'p0',p0),[t1 t2],x0,opts);
     
     case 'fixedstepsize'  % Runge-Kutta method with fixed stepsize, slow
     disp(['Adaptive 45 Runge-Kutta method with fixed stepsize control of' num2str(param.StepSize)]);
     timespan = t1:param.StepSize:t2;
-    [t,x] = ode45(@(t,x)extended_gilmore(t,x,R0,Rn,Rn2,Rn3,tRmax,tRmax2,tp,'JSC',param.JSC,'RNP',RNP,'tRmax3',param.tRmax3,'Twall',param.Twall,'isIsotherm',param.isIsotherm,'Rnc3',param.Rnc3),timespan,x0);   
+    [t,x] = ode45(@(t,x)extended_gilmore(t,x,R0,Rn,Rn2,Rn3,tRmax,tRmax2,tp,'JSC',param.JSC,'RNP',RNP,'tRmax3',param.tRmax3,'Twall',param.Twall,'isIsotherm',param.isIsotherm,'Rnc3',param.Rnc3,'p0',p0),timespan,x0);   
 end
 
 %write R and U in separate vectors
 R = x(:,1);  % bubble radius
 U = x(:,2);  % bubble wall speed
+
 
 %% Plots
 %plot the radius-time curve

@@ -1,4 +1,4 @@
-function zprime = Kirkwood_Bethe_method(t,z,y)
+function zprime = Kirkwood_Bethe_method(t,z,y,varargin)
 % This function tracks the outgoing characteristics in the liquid around
 % a spherical bubble using the Kirkwood-Bethe hypothesis see 
 % Section 3.3. Acoustic and shock wave emission in the Ref: 
@@ -13,6 +13,9 @@ function zprime = Kirkwood_Bethe_method(t,z,y)
 %  z(1) - u, local liquid velocity
 %  z(2) - r, radial distance
 %  y    - y = r(h+u^2/2), quantity that propagates outward
+%
+%  Optional parameter
+%  p0     - ambient pressure % Update version 1.1
 %
 %  Output arguments:
 %  zprime(1) - du/dt, acceleration of local liquid
@@ -36,13 +39,24 @@ function zprime = Kirkwood_Bethe_method(t,z,y)
 %   Insitute of Biomedical Optics, University of Luebeck, 
 %   Peter-Monnik-Weg 4, 23562 Luebeck, Germany
 %   Correspondence to x.liang@uni-luebeck.de
+%% Parse optional input arguments
+p = inputParser;
+defaultp0     = 1e5;    % default value for ambient pressure 1e5 Pa
+addParameter(p,'p0',defaultp0);
+parse(p,varargin{:});   % Parse param.-value pairs
+param = p.Results;      % transfer res. to structure
+clear p                 % delete the object p that is not needed
+p0     = param.p0;      % ambient pressure as an input parameter
 
+% mass density and speed of sound at ambient pressure p0
+[rho, c0] = TaitEOS(p0); 
 %% parameters for the calculations:
-p0    = 1e5;          % ambient pressure
-rho   = 998;          % density of water 998kg/m3
+% p0    = 1e5;          % ambient pressure
+% rho   = 998;          % density of water 998kg/m3
+% c0    = 1483;         % speed of sound in water 1483m/s
+
 B     = 3.14e8;       % 314MPa, constant in Tait EOS
 n     = 7;            % constant in Tait EOS
-c0    = 1483;         % speed of sound in water 1483m/s
 p_inf = p0;           % pressure in the liquid, far away from the bubble; here assumed to be equal to p0
 
 p = (p_inf + B)*((y/z(2) - z(1)^2/2)*(n-1)*rho/(n*(p_inf + B))+1)^(n/(n-1))-B; % Eq.(3.33) in Liang2022

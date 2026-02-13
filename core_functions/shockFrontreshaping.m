@@ -55,6 +55,9 @@ y0           = y(index_x0);
 
 %% Delineate line f1
 index_left_f1 = find(x(1:index_R)<x0,1,'last');
+if isempty(index_left_f1) % make sure there is an index for the left_f1 point 11.03.2025
+    index_left_f1 = 1;
+end
 x_line_f1     = x(index_left_f1:index_R);
 y_line_f1     = y(index_left_f1:index_R);
 f1            = griddedInterpolant(x_line_f1,y_line_f1,'pchip');

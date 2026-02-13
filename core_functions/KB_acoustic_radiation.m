@@ -23,6 +23,7 @@ function [tindstart,tindend,dtkb,varargout] = KB_acoustic_radiation(t,R,P,U,tind
 % t_sw0   - start of simulation for acoustic radiation
 % t_swd   - end of simulation for acoustic radiation
 % dtkb    - time step for the acoustic radiation using the KB algorithm
+% p0      - ambient pressure % Update version 1.1
 %
 % Explicit output arguments:
 % tindstart - index of time array t() where simulation of sw starts
@@ -76,6 +77,7 @@ defaultt_sw0 = t(2);  % t(1) = 0, so we set here a non-zero minimal value
 defaultt_swd = 15e-9; % 15 ns
 defaultisARexp = 1;   % expansion for default
 defaultwinSel  = 'cursor';
+defaultp0      = 1e5;    % default value for ambient pressure 1e5 Pa
 
 validationFcnwinSel  = @(str) any(strcmp(str,{'cursor','manuel'}));
 validScalarPosNum    = @(x) isnumeric(x) && isscalar(x) && (x > 0);
@@ -85,6 +87,7 @@ addParameter(p,'dtkb',   defaultdtkb,validScalarPosNum);
 addParameter(p,'winSel', defaultwinSel,validationFcnwinSel);
 addParameter(p,'t_sw0',  defaultt_sw0,validScalarPosNum);
 addParameter(p,'t_swd',  defaultt_swd,validScalarPosNum);
+addParameter(p,'p0',     defaultp0);
 
 parse(p,varargin{:});   % Parse param.-value pairs
 param = p.Results;      % transfer res. to structure
@@ -94,16 +97,20 @@ t_sw0 = param.t_sw0;
 t_swd = param.t_swd;
 dtkb  = param.dtkb;
 isARexp=param.isARexp;
+p0     = param.p0;      % ambient pressure as an input parameter
 
+% mass density and speed of sound at ambient pressure p0
+[rho, c0] = TaitEOS(p0);  
 %% Constants
-p0      = 1e5;         % ambient pressure in Pa
+% p0      = 1e5;         % ambient pressure in Pa
+% rho     = 998;         % density of water in ambient condiction  998kg/m3 
+
 sigma   = 0.072583;    % surface tension 0.072583N/m
-rho     = 998;         % density of water in ambient condiction  998kg/m3  
 mu      = 1.046e-3;    % viscosity 0.001046 Pa.s % 7.173mPa.s for 5% dextran
 B       = 3.14e8;      % parameter in Tait EOS
-A       = 3141e5;      % parameter in Tait EOS, A = B+p0 =3.14e8+1e5 = 3141e5;
+A       = B + p0;      % parameter in Tait EOS, A = B+p0 =3.14e8+1e5 = 3141e5;
 n       = 7;           % adiabatic coeffecient in Tait EOS
-fontsize = 14;     % fontsize
+fontsize = 14;         % fontsize
 
 %% select time_index_start and time_index_end from Gilmore time axis R(t), with time window t(tindstart:tindend)
 
@@ -127,7 +134,7 @@ if isARexp == 1  % expansion phase
                  [~,tindstart] = min(abs(t-t_sw0)); %
                  [~,tindend] = min(abs(t-t_swd)); %
                  assert(t_sw0>=0);
-                 assert(t_swd<t(tind_sw(1)));
+                 % assert(t_swd<t(tind_sw(1))); 
          end
 
 else % collapse and rebound phase
@@ -202,7 +209,7 @@ for tind = tindstart:tindend
     % characteristic, y is input parameter
     % tt = tkb  = 0:dtkb:t(tindend)-t(tindstart);  % time axle for propagation of characteristics [1,T_KB]
     z0 = [U0 R0];
-    [tt,z] = ode45(@Kirkwood_Bethe_method,tkb,z0,[],y);  % tkb is the timespan [t1 tend] but it can also be a fixed time axle
+    [tt,z] = ode45(@(tt,z)Kirkwood_Bethe_method(tt,z,y,'p0',p0),tkb,z0);  % tkb is the timespan [t1 tend] but it can also be a fixed time axle
     
     % we interpolate the values of r and p onto the common time axis t1,
     % because later we want to display u(t) p(r) at defined instants

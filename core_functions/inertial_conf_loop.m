@@ -1,6 +1,6 @@
 function [Value_th,Rmax_th,Tosc_th, Results_Matrix] = inertial_conf_loop(R0,Rnbd_R0_Array,tau_Array,Inertial_threshold,varargin)
 % This function calculate the change of bubble parameters as a function of laser pulse duration or Rnbd/R0 for a given R0. 
-% See Ref: Liang&Vogel2024 Preprint...
+% See Ref: Liang&Vogel,https://doi.org/10.48550/arXiv.2501.13749
 % Usage:
 % [tau_th,Rmax_th,Tosc_th, Results_Matrix] =
 % inertial_conf_loop(R0,Rnbd_R0_Array,tau_Array,Inertial_threshold)

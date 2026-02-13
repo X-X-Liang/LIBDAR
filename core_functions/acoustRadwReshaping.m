@@ -387,15 +387,18 @@ for i = 1:nr
 end
 
 figure() % selected 10 p(r) curves
-loglog(Res_P0_U0_R0(:,1),Res_P0_U0_R0(:,2),'b--',Res_Sel_R0_P0_U0(:,1),Res_Sel_R0_P0_U0(:,2),'ro',Res_P_R_SW(:,1),Res_P_R_SW(:,2),'b-.',Res_Sel_P_R_SW(:,1),Res_Sel_P_R_SW(:,2),'bs','LineWidth',1.0)
+loglog(Res_P0_U0_R0(:,1),Res_P0_U0_R0(:,2),'b--',...        % all points at bubble wall
+       Res_Sel_R0_P0_U0(:,1),Res_Sel_R0_P0_U0(:,2),'ro',... % selected points at bubble wall
+       Res_P_R_SW(:,1),Res_P_R_SW(:,2),'b-.',...            % all points at shock front
+       Res_Sel_P_R_SW(:,1),Res_Sel_P_R_SW(:,2),'bs','LineWidth',1.0) % selected points at shock front
 hold on
 for i=1:nr
     loglog(Res_Sel_R_P(:,2*i-1),Res_Sel_R_P(:,2*i),'k','LineWidth',1.0)
-    txt1 = ['\leftarrow ' num2str(Res_Sel_t_us_R_um(i,1)*1e3,'%.1f') ' ns'];
-    text(Res_Sel_R0_P0_U0(i,1),Res_Sel_R0_P0_U0(i,2),txt1,'HorizontalAlignment','left');
+     txt1 = ['\leftarrow ' num2str(Res_Sel_t_us_R_um(i,1)*1e3,'%.2f') ' ns'];
+     text(Res_Sel_R0_P0_U0(i,1),Res_Sel_R0_P0_U0(i,2),txt1,'HorizontalAlignment','left', 'FontName', 'Times New Roman');
 end
 hold off
-xlabel('Radius (\mum)','fontsize',fontsize)
+xlabel('Radius (μm)','fontsize',fontsize)
 ylabel('Pressure(MPa)','fontsize',fontsize)
 set(gca,'fontsize',fontsize)
 
@@ -404,18 +407,47 @@ semilogx(Res_P0_U0_R0(:,1),Res_P0_U0_R0(:,3),'b--',Res_Sel_R0_P0_U0(:,1),Res_Sel
 hold on
 for i=1:nr
     semilogx(Res_Sel_R_U(:,2*i-1),Res_Sel_R_U(:,2*i),'k','LineWidth',1.0)
-    txt1 = ['\leftarrow ' num2str(Res_Sel_t_us_R_um(i,1)*1e3,'%.1f') ' ns'];
-    text(Res_Sel_R0_P0_U0(i,1),Res_Sel_R0_P0_U0(i,3),txt1,'HorizontalAlignment','left');
+     txt1 = ['\leftarrow ' num2str(Res_Sel_t_us_R_um(i,1)*1e3,'%.1f') ' ns'];
+     text(Res_Sel_R0_P0_U0(i,1),Res_Sel_R0_P0_U0(i,3),txt1,'HorizontalAlignment','left', 'FontName', 'Times New Roman');
 end
 hold off
-xlabel('Radius (\mum)','fontsize',fontsize)
+xlabel('Radius (μm)','fontsize',fontsize)
 ylabel('Velocity(m/s)','fontsize',fontsize)
 set(gca,'fontsize',fontsize)
 
+%% Plot shock front radus-time and shock velocity-time curves
+B = [Res_Sel_t_us_R_um(:,1)*1e3,Res_Sel_P_R_SW(:,1)];
+[~, ia, ~] = unique(B(:, 1), 'first');
+SW_radius_time_curve = B(ia, :);
+
+% figure() 
+% plot(SW_radius_time_curve(:,1),SW_radius_time_curve(:,2),'b','LineWidth',1)
+% xlabel('Time (ns)','fontsize',fontsize)
+% ylabel('Shock Wave Radius (μm)','fontsize',fontsize)
+% set(gca,'fontsize',fontsize)
+
+SW_velocity_time_curve = zeros(length(SW_radius_time_curve(:,1))-1,2);
+for i = 1:1:length(SW_radius_time_curve(:,1))-1
+    tt = (SW_radius_time_curve(i+1,1)-SW_radius_time_curve(i,1))/2+SW_radius_time_curve(i,1);
+    uu = (SW_radius_time_curve(i+1,2)-SW_radius_time_curve(i,2))/(SW_radius_time_curve(i+1,1)-SW_radius_time_curve(i,1))*1000;
+    SW_velocity_time_curve(i,:) = [tt,uu];
+end
+
+% figure() 
+% plot(SW_velocity_time_curve(:,1),SW_velocity_time_curve(:,2),'b','LineWidth',1)
+% xlabel('Time (ns)','fontsize',fontsize)
+% ylabel('Shock Wave Velocity (μm)','fontsize',fontsize)
+% set(gca,'fontsize',fontsize)
+
+%% Save results for outputs
 varargout{1} = Res_Sel_R_P;
 varargout{2} = Res_Sel_R_U;
 varargout{3} = Res_Sel_R0_P0_U0;
-varargout{4} = Res_Sel_P_R_SW;
+varargout{4} = Res_Sel_P_R_SW; % P(r) curve for selected shock fronts
 varargout{5} = Res_Sel_t_us_R_um;
+varargout{6} = SW_radius_time_curve;
+varargout{7} = SW_velocity_time_curve;
+varargout{8} = Res_P_R_SW; % P(r) curve for all calculated shock fronts
+varargout{9} = Res_P0_U0_R0; %
 
 end
