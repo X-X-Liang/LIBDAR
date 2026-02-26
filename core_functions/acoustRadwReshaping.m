@@ -365,6 +365,7 @@ Res_Sel_R_P      = zeros(length(Res_P_MPa_R_um),2*nr); % R in um and P in MPa
 Res_Sel_R_U      = zeros(length(Res_U_R_um),2*nr);     % R in um and U in m/s
 Res_Sel_R0_P0_U0 = zeros(nr,3);                        % R0, P0 and U0 
 Res_Sel_P_R_SW   = zeros(nr,2);                        % R_sw, P_sw
+Res_Sel_U_R_SW   = zeros(nr,2);                        % R_sw, U_sw - velocity at shock front for selected curves
 Res_Sel_t_us_R_um= zeros(nr,2);                        % t, R0
 
 for i = 1:nr
@@ -382,6 +383,21 @@ for i = 1:nr
     Res_Sel_P_R_SW (i,1)  = Res_P_R_SW(index,1);        % slected r_sw
     Res_Sel_P_R_SW (i,2)  = Res_P_R_SW(index,2);        % slected p_sw
     
+    % Get the velocity value at shock front for selected curve
+    r_sw = Res_Sel_P_R_SW(i,1);                         % shock front radius
+    r_curve = Res_Sel_R_U(:,2*i-1);                     % radius values for this curve
+    u_curve = Res_Sel_R_U(:,2*i);                       % velocity values for this curve
+    % Find closest radius to shock front and get corresponding velocity
+    valid_indices = find(r_curve > 0);                  % find valid (non-zero) radius values
+    if ~isnan(r_sw) && ~isempty(valid_indices)
+        [~, closest_idx] = min(abs(r_curve(valid_indices) - r_sw));
+        Res_Sel_U_R_SW(i,1) = r_sw;                     % shock front radius
+        Res_Sel_U_R_SW(i,2) = u_curve(valid_indices(closest_idx)); % corresponding velocity
+    else
+        Res_Sel_U_R_SW(i,1) = NaN;
+        Res_Sel_U_R_SW(i,2) = NaN;
+    end
+    
     Res_Sel_t_us_R_um(i,1)= Res_R_um_t_us(index,3);     % slected t in us  
     Res_Sel_t_us_R_um(i,2)= Res_R_um_t_us(index,4);     % slected R0 in um
 end
@@ -396,6 +412,7 @@ for i=1:nr
     loglog(Res_Sel_R_P(:,2*i-1),Res_Sel_R_P(:,2*i),'k','LineWidth',1.0)
      txt1 = ['\leftarrow ' num2str(Res_Sel_t_us_R_um(i,1)*1e3,'%.2f') ' ns'];
      text(Res_Sel_R0_P0_U0(i,1),Res_Sel_R0_P0_U0(i,2),txt1,'HorizontalAlignment','left', 'FontName', 'Times New Roman');
+     
 end
 hold off
 xlabel('Radius (μm)','fontsize',fontsize)
@@ -405,6 +422,8 @@ set(gca,'fontsize',fontsize)
 figure() % selected 10 u(r) curves
 semilogx(Res_P0_U0_R0(:,1),Res_P0_U0_R0(:,3),'b--',Res_Sel_R0_P0_U0(:,1),Res_Sel_R0_P0_U0(:,3),'ro','LineWidth',1.0)
 hold on
+% Add shock wave front points at selected time instances with corresponding velocity values
+semilogx(Res_Sel_U_R_SW(:,1),Res_Sel_U_R_SW(:,2),'bs','LineWidth',1.0)
 for i=1:nr
     semilogx(Res_Sel_R_U(:,2*i-1),Res_Sel_R_U(:,2*i),'k','LineWidth',1.0)
      txt1 = ['\leftarrow ' num2str(Res_Sel_t_us_R_um(i,1)*1e3,'%.1f') ' ns'];
