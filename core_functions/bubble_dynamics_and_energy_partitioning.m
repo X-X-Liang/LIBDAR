@@ -266,7 +266,9 @@ Delta_E_v_t = 0*(t<=tRmax) + (E_v_tot-E_v_Rmax1)*(t>tRmax & t<=tRmin) +...
 
 %% the equilibrium bubble radius Rn(t)
 Rnt = (R0^3 + (Rn^3-R0^3)/2/tp*(t-tp/pi*sin(pi/tp*t))).^(1/3);
-Rnt = Rnt.*(t<=2*tp) + Rn*(t>2*tp & t<=tRmax) + Rn2*(t>tRmax & t<=tRmax2)+Rn3*(t>tRmax2);   %
+Rnt = Rnt.*(t<=2*tp) + Rn*(t>2*tp & t<=tRmax) + ...
+      Rn2*(t>tRmax & t<=tRmax2) + Rn3*(t>tRmax2 & t<=param.tRmax3) + ...
+      param.Rnc3*(t>param.tRmax3);
 
 %% van der Waals hard core Rvdw considering extra hard core as NPs
 % Here van der waals' hard core is implemented
